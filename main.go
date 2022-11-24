@@ -22,6 +22,7 @@ func initRouter() *gin.Engine {
 
 	coreHandler := core.NewHandler()
 	router.GET("/api/v1/words/search", coreHandler.Search)
+	router.POST("/api/v1/words/add", coreHandler.AddWord)
 	return router
 }
 

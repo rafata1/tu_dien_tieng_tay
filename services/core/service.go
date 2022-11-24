@@ -1,5 +1,7 @@
 package core
 
+import "fmt"
+
 type Service struct {
 	repo *Repo
 }
@@ -44,4 +46,9 @@ func (s *Service) Search(keyword string, language string) (SearchRes, error) {
 		},
 	}
 	return resp, nil
+}
+
+func (s *Service) AddWord(word AddWord) (int, error) {
+	fmt.Println(word)
+	return 0, nil
 }
