@@ -13,10 +13,11 @@ type SearchRes struct {
 }
 
 type WordRes struct {
-	ID          int          `json:"id"`
-	Word        string       `json:"word"`
-	Type        string       `json:"type"`
-	Definitions []Definition `json:"definitions"`
+	ID                 int          `json:"id"`
+	Word               string       `json:"word"`
+	Type               string       `json:"type"`
+	PronunciationSound string       `json:"pronunciation_sound"`
+	Definitions        []Definition `json:"definitions"`
 }
 
 type Definition struct {
