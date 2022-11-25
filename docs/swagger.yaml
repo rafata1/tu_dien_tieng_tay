@@ -1,0 +1,225 @@
+basePath: /
+definitions:
+  auth.BaseRes:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  auth.LoginReq:
+    properties:
+      password:
+        type: string
+      string:
+        type: string
+    type: object
+  auth.SignupReq:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      username:
+        type: string
+    type: object
+  core.AddWord:
+    properties:
+      definitions:
+        items:
+          $ref: '#/definitions/core.Definition'
+        type: array
+      language:
+        type: string
+      type:
+        type: string
+      word:
+        type: string
+    type: object
+  core.BaseRes:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  core.Definition:
+    properties:
+      example:
+        items:
+          type: string
+        type: array
+      meaning:
+        type: string
+    type: object
+  core.SearchRes:
+    properties:
+      words:
+        items:
+          $ref: '#/definitions/core.WordRes'
+        type: array
+    type: object
+  core.WordRes:
+    properties:
+      definitions:
+        items:
+          $ref: '#/definitions/core.Definition'
+        type: array
+      id:
+        type: integer
+      pronunciation_sound:
+        type: string
+      type:
+        type: string
+      word:
+        type: string
+    type: object
+info:
+  contact: {}
+  title: User API documentation
+paths:
+  /api/v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Signup
+        in: body
+        name: loginRequest
+        required: true
+        schema:
+          $ref: '#/definitions/auth.LoginReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.BaseRes'
+      summary: Login
+      tags:
+      - Authentication
+  /api/v1/auth/signup:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Signup
+        in: body
+        name: signupRequest
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SignupReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.BaseRes'
+      summary: Register an account
+      tags:
+      - Authentication
+  /api/v1/words/pronounce/{id}:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: this is a test file
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: id of word to upload pronounce
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/core.BaseRes'
+      summary: Add sound of pronunciation
+      tags:
+      - Core
+  /api/v1/words/search:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: prefix of words
+        in: query
+        name: prefix
+        type: string
+      - description: keyword to search
+        in: query
+        name: keyword
+        type: string
+      - description: search word in language
+        in: query
+        name: language
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/core.SearchRes'
+      summary: Search word in language
+      tags:
+      - Core
+  /api/v1/words/translate:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: keyword in Kinh
+        in: query
+        name: keyword
+        required: true
+        type: string
+      - description: language want to translate into
+        in: query
+        name: language
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/core.BaseRes'
+      summary: Translate from Kinh to another language
+      tags:
+      - Core
+  /api/v1/words/upsert:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: if pass id => update ward; else => add new word
+        in: path
+        name: id
+        type: integer
+      - description: new word
+        in: body
+        name: addWordReq
+        required: true
+        schema:
+          $ref: '#/definitions/core.AddWord'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/core.BaseRes'
+      summary: Add or update word
+      tags:
+      - Core
+swagger: "2.0"
