@@ -5,7 +5,6 @@ import (
 	"github.com/joho/godotenv"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
-	"github.com/templateOfService/connectors/mysql"
 	_ "github.com/templateOfService/docs"
 	"github.com/templateOfService/services/auth"
 	"github.com/templateOfService/services/core"
@@ -34,10 +33,10 @@ func main() {
 		log.Fatalf("Error loading env: %s", err.Error())
 	}
 
-	err = mysql.Connect()
-	if err != nil {
-		log.Fatalf("Error connecting to mysql: %s", err.Error())
-	}
+	//err = mysql.Connect()
+	//if err != nil {
+	//	log.Fatalf("Error connecting to mysql: %s", err.Error())
+	//}
 
 	router := initRouter()
 	err = router.Run()
