@@ -23,6 +23,7 @@ func NewHandler() *Handler {
 // @Param		 prefix query string false "prefix of words"
 // @Param        keyword query string false "keyword to search"
 // @Param        language query string false "search word in language"
+// @Param		 sort query string false "sort by alphabet asc/ desc, default asc"
 // @Success      200 {object} SearchRes
 // @Router       /api/v1/words/search [get]
 func (h *Handler) Search(c *gin.Context) {

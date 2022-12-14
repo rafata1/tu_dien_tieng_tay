@@ -150,6 +150,12 @@ const docTemplate = `{
                         "description": "search word in language",
                         "name": "language",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "sort by alphabet asc/ desc, default asc",
+                        "name": "sort",
+                        "in": "query"
                     }
                 ],
                 "responses": {
