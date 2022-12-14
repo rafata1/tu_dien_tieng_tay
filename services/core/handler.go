@@ -31,9 +31,10 @@ func (h *Handler) Search(c *gin.Context) {
 	keyword, _ := c.GetQuery("keyword")
 	language, _ := c.GetQuery("language")
 	sort, _ := c.GetQuery("sort")
-	fmt.Println(sort)
+	prefix, _ := c.GetQuery("prefix")
 
-	res, err := h.service.Search(keyword, language)
+	fmt.Println("Searching word: ", keyword, " ", prefix, " ", language, " ", sort)
+	res, err := h.service.Search(keyword, prefix, language, sort)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, BaseRes{
 			Message: err.Error(),
@@ -76,7 +77,7 @@ func (h *Handler) Upsert(c *gin.Context) {
 
 	c.JSON(http.StatusOK, BaseRes{
 		Message: SuccessMessage,
-		Data: AddWordRes{
+		Data: UpsertWordRes{
 			ID: id,
 		},
 	})
@@ -108,7 +109,7 @@ func (h *Handler) AddPronounce(c *gin.Context) {
 // @Success      200 {object} BaseRes
 // @Router       /api/v1/words/translate [get]
 func (h *Handler) Translate(c *gin.Context) {
-	resp, _ := h.service.Search("", "")
+	resp, _ := h.service.Search("", "", "", "")
 	c.JSON(http.StatusOK, BaseRes{
 		Message: SuccessMessage,
 		Data:    resp,

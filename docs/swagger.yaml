@@ -32,7 +32,7 @@ definitions:
     type: object
   core.Definition:
     properties:
-      example:
+      examples:
         items:
           type: string
         type: array
@@ -69,6 +69,8 @@ definitions:
         type: array
       id:
         type: integer
+      language:
+        type: string
       pronunciation_sound:
         type: string
       type:

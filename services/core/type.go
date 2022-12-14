@@ -16,13 +16,14 @@ type WordRes struct {
 	ID                 int          `json:"id"`
 	Word               string       `json:"word"`
 	Type               string       `json:"type"`
+	Language           string       `json:"language"`
 	PronunciationSound string       `json:"pronunciation_sound"`
 	Definitions        []Definition `json:"definitions"`
 }
 
 type Definition struct {
 	Meaning  string   `json:"meaning"`
-	Examples []string `json:"example"`
+	Examples []string `json:"examples"`
 }
 
 type UpsertWord struct {
@@ -33,6 +34,6 @@ type UpsertWord struct {
 	Definitions []Definition `json:"definitions"`
 }
 
-type AddWordRes struct {
+type UpsertWordRes struct {
 	ID int `json:"id"`
 }

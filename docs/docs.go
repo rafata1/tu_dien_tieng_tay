@@ -290,7 +290,7 @@ const docTemplate = `{
         "core.Definition": {
             "type": "object",
             "properties": {
-                "example": {
+                "examples": {
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -346,6 +346,9 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "language": {
+                    "type": "string"
                 },
                 "pronunciation_sound": {
                     "type": "string"
