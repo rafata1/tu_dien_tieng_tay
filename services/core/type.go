@@ -25,7 +25,8 @@ type Definition struct {
 	Examples []string `json:"example"`
 }
 
-type AddWord struct {
+type UpsertWord struct {
+	ID          int          `json:"id"`
 	Word        string       `json:"word"`
 	Type        string       `json:"type"`
 	Language    string       `json:"language"`

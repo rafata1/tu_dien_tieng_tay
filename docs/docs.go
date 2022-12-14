@@ -220,18 +220,12 @@ const docTemplate = `{
                 "summary": "Add or update word",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "if pass id =\u003e update ward; else =\u003e add new word",
-                        "name": "id",
-                        "in": "path"
-                    },
-                    {
-                        "description": "new word",
-                        "name": "addWordReq",
+                        "description": "if id = 0 means create new word, else update word",
+                        "name": "upsertWordReq",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/core.AddWord"
+                            "$ref": "#/definitions/core.UpsertWord"
                         }
                     }
                 ],
@@ -284,26 +278,6 @@ const docTemplate = `{
                 }
             }
         },
-        "core.AddWord": {
-            "type": "object",
-            "properties": {
-                "definitions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/core.Definition"
-                    }
-                },
-                "language": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "word": {
-                    "type": "string"
-                }
-            }
-        },
         "core.BaseRes": {
             "type": "object",
             "properties": {
@@ -335,6 +309,29 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/core.WordRes"
                     }
+                }
+            }
+        },
+        "core.UpsertWord": {
+            "type": "object",
+            "properties": {
+                "definitions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/core.Definition"
+                    }
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "word": {
+                    "type": "string"
                 }
             }
         },

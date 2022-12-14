@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -15,6 +16,8 @@ import (
 func initRouter() *gin.Engine {
 	gin.SetMode(os.Getenv("GIN_MODE"))
 	router := gin.Default()
+	router.Use(cors.Default())
+
 	authHandler := auth.NewHandler()
 	router.POST("/api/v1/auth/signup", authHandler.Signup)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

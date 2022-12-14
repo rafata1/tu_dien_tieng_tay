@@ -24,19 +24,6 @@ definitions:
       username:
         type: string
     type: object
-  core.AddWord:
-    properties:
-      definitions:
-        items:
-          $ref: '#/definitions/core.Definition'
-        type: array
-      language:
-        type: string
-      type:
-        type: string
-      word:
-        type: string
-    type: object
   core.BaseRes:
     properties:
       data: {}
@@ -58,6 +45,21 @@ definitions:
         items:
           $ref: '#/definitions/core.WordRes'
         type: array
+    type: object
+  core.UpsertWord:
+    properties:
+      definitions:
+        items:
+          $ref: '#/definitions/core.Definition'
+        type: array
+      id:
+        type: integer
+      language:
+        type: string
+      type:
+        type: string
+      word:
+        type: string
     type: object
   core.WordRes:
     properties:
@@ -206,16 +208,12 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: if pass id => update ward; else => add new word
-        in: path
-        name: id
-        type: integer
-      - description: new word
+      - description: if id = 0 means create new word, else update word
         in: body
-        name: addWordReq
+        name: upsertWordReq
         required: true
         schema:
-          $ref: '#/definitions/core.AddWord'
+          $ref: '#/definitions/core.UpsertWord'
       produces:
       - application/json
       responses:

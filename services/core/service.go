@@ -16,6 +16,7 @@ func (s *Service) Search(keyword string, language string) (SearchRes, error) {
 	resp := SearchRes{
 		Words: []WordRes{
 			{
+				ID:   1,
 				Word: "Ốc rưởn",
 				Type: "danh từ",
 				Definitions: []Definition{
@@ -30,7 +31,8 @@ func (s *Service) Search(keyword string, language string) (SearchRes, error) {
 				},
 			},
 			{
-				Word: "Ốc rưởn",
+				ID:   2,
+				Word: "Ốc ốc",
 				Type: "danh từ",
 				Definitions: []Definition{
 					{
@@ -48,7 +50,7 @@ func (s *Service) Search(keyword string, language string) (SearchRes, error) {
 	return resp, nil
 }
 
-func (s *Service) AddWord(word AddWord) (int, error) {
+func (s *Service) Upsert(word UpsertWord) (int, error) {
 	fmt.Println(word)
 	return 0, nil
 }

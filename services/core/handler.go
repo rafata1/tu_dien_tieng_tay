@@ -1,6 +1,7 @@
 package core
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -29,6 +30,8 @@ func NewHandler() *Handler {
 func (h *Handler) Search(c *gin.Context) {
 	keyword, _ := c.GetQuery("keyword")
 	language, _ := c.GetQuery("language")
+	sort, _ := c.GetQuery("sort")
+	fmt.Println(sort)
 
 	res, err := h.service.Search(keyword, language)
 	if err != nil {
@@ -49,14 +52,13 @@ func (h *Handler) Search(c *gin.Context) {
 // @Tags         Core
 // @Accept       json
 // @Produce      json
-// @Param id path int false "if pass id => update ward; else => add new word"
-// @Param        addWordReq body AddWord true "new word"
+// @Param        upsertWordReq body UpsertWord true "if id = 0 means create new word, else update word"
 // @Success      200 {object} BaseRes
 // @Router       /api/v1/words/upsert [post]
 func (h *Handler) Upsert(c *gin.Context) {
-	var addWord AddWord
+	var word UpsertWord
 
-	err := c.Bind(&addWord)
+	err := c.Bind(&word)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, BaseRes{
 			Message: err.Error(),
@@ -64,7 +66,7 @@ func (h *Handler) Upsert(c *gin.Context) {
 		return
 	}
 
-	id, err := h.service.AddWord(addWord)
+	id, err := h.service.Upsert(word)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, BaseRes{
 			Message: err.Error(),
