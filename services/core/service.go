@@ -110,13 +110,13 @@ func (s *Service) Search(keyword string, prefix string, language string, order s
 	res.Words = append(res.Words, notPrioritizedWords...)
 	if order == "asc" {
 		sort.Slice(res.Words, func(i, j int) bool {
-			return res.Words[i].Word < res.Words[j].Word
+			return strings.ToLower(vietnamese.RemoveAccent(res.Words[i].Word)) < strings.ToLower(vietnamese.RemoveAccent(res.Words[j].Word))
 		})
 	}
 
 	if order == "desc" {
 		sort.Slice(res.Words, func(i, j int) bool {
-			return res.Words[i].Word > res.Words[j].Word
+			return strings.ToLower(vietnamese.RemoveAccent(res.Words[i].Word)) > strings.ToLower(vietnamese.RemoveAccent(res.Words[j].Word))
 		})
 	}
 
