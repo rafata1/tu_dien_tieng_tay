@@ -26,7 +26,7 @@ func NewService() *Service {
 	fmt.Println(GetOutboundIP().String())
 	return &Service{
 		repo: NewRepo(),
-		host: GetOutboundIP().String(),
+		host: "43.206.104.29",
 	}
 }
 
