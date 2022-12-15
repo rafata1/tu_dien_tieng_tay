@@ -214,7 +214,7 @@ func (s *Service) AddPronounce(id int, file *multipart.FileHeader) error {
 	if err != nil {
 		return err
 	}
-	return s.repo.UpdatePronounce(id, "http://"+s.host+name[1:])
+	return s.repo.UpdatePronounce(id, "http://"+s.host+":8080"+name[1:])
 }
 
 func transform(input UpsertWord) (models.Word, []models.Definition) {
