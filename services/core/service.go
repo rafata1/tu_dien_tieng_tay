@@ -57,6 +57,9 @@ func (s *Service) Search(keyword string, prefix string, language string, order s
 	var res SearchRes
 	var notPrioritizedWords []WordRes
 
+	prefix = vietnamese.RemoveAccent(prefix)
+	keyword = vietnamese.RemoveAccent(keyword)
+
 	if len(keyword) == 0 && len(prefix) == 0 && len(language) == 0 {
 		for _, word := range CachedWords {
 			res.Words = append(res.Words, toWordRes(word))
@@ -153,6 +156,22 @@ func (s *Service) Upsert(input UpsertWord) (int, error) {
 	}
 
 	return wordID, nil
+}
+
+func (s *Service) List(ids []int) (SearchRes, error) {
+	var res SearchRes
+	tracer := make(map[int]struct{})
+
+	for _, id := range ids {
+		tracer[id] = struct{}{}
+	}
+
+	for _, word := range CachedWords {
+		if _, ok := tracer[word.ID]; ok {
+			res.Words = append(res.Words, toWordRes(word))
+		}
+	}
+	return res, nil
 }
 
 func transform(input UpsertWord) (models.Word, []models.Definition) {

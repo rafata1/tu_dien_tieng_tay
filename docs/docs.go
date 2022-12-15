@@ -82,6 +82,36 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/words/list": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Core"
+                ],
+                "summary": "List words by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ids seperated  by commas, eg 1,2,3,4",
+                        "name": "ids",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/core.SearchRes"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/words/pronounce/{id}": {
             "post": {
                 "consumes": [

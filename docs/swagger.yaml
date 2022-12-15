@@ -124,6 +124,25 @@ paths:
       summary: Register an account
       tags:
       - Authentication
+  /api/v1/words/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ids seperated  by commas, eg 1,2,3,4
+        in: query
+        name: ids
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/core.SearchRes'
+      summary: List words by id
+      tags:
+      - Core
   /api/v1/words/pronounce/{id}:
     post:
       consumes:

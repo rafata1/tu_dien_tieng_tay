@@ -24,6 +24,7 @@ func initRouter() *gin.Engine {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	coreHandler := core.NewHandler()
+	router.GET("/api/v1/words/list", coreHandler.ListWords)
 	router.GET("/api/v1/words/search", coreHandler.Search)
 	router.POST("/api/v1/words/upsert", coreHandler.Upsert)
 	return router

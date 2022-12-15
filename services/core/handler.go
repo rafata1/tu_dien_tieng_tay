@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 type Handler struct {
@@ -115,4 +117,36 @@ func (h *Handler) Translate(c *gin.Context) {
 		Data:    resp,
 	})
 	return
+}
+
+// ListWords godoc
+// @Summary      List words by id
+// @Tags         Core
+// @Accept       json
+// @Produce      json
+// @Param		 ids query string false "ids seperated  by commas, eg 1,2,3,4"
+// @Success      200 {object} SearchRes
+// @Router       /api/v1/words/list [get]
+func (h *Handler) ListWords(c *gin.Context) {
+	ids, _ := c.GetQuery("ids")
+
+	ls := strings.Split(ids, ",")
+	var listIDs []int
+	for _, x := range ls {
+		y, _ := strconv.Atoi(x)
+		listIDs = append(listIDs, y)
+	}
+
+	res, err := h.service.List(listIDs)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, BaseRes{
+			Message: err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, BaseRes{
+		Message: SuccessMessage,
+		Data:    res,
+	})
 }
