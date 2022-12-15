@@ -93,8 +93,19 @@ func (h *Handler) Upsert(c *gin.Context) {
 // @Param			file	formData	file			true	"this is a test file"
 // @Param 		id path int true "id of word to upload pronounce"
 // @Success      200 {object} BaseRes
-// @Router       /api/v1/words/pronounce/{id} [post]
+// @Router       /api/v1/words/pronounce/:id [post]
 func (h *Handler) AddPronounce(c *gin.Context) {
+	wordID, _ := strconv.Atoi(c.Param("id"))
+	file, _ := c.FormFile("file")
+
+	err := h.service.AddPronounce(wordID, file)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, BaseRes{
+			Message: err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, BaseRes{
 		Message: SuccessMessage,
 	})

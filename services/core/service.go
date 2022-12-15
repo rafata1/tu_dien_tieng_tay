@@ -4,6 +4,12 @@ import (
 	"fmt"
 	"github.com/templateOfService/models"
 	"github.com/templateOfService/pkg/vietnamese"
+	"io"
+	"log"
+	"mime/multipart"
+	"net"
+	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 	"time"
@@ -11,14 +17,28 @@ import (
 
 type Service struct {
 	repo *Repo
+	host string
 }
 
 var CachedWords []models.Word
 
 func NewService() *Service {
+	fmt.Println(GetOutboundIP().String())
 	return &Service{
 		repo: NewRepo(),
+		host: GetOutboundIP().String(),
 	}
+}
+
+func GetOutboundIP() net.IP {
+	conn, err := net.Dial("udp", "8.8.8.8:80")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Close()
+
+	localAddr := conn.LocalAddr().(*net.UDPAddr)
+	return localAddr.IP
 }
 
 func (s *Service) LoadCache() {
@@ -113,11 +133,12 @@ func toWordRes(word models.Word) WordRes {
 	}
 
 	return WordRes{
-		ID:          word.ID,
-		Word:        word.Word,
-		Language:    word.Language,
-		Type:        word.Type,
-		Definitions: definitions,
+		ID:                 word.ID,
+		Word:               word.Word,
+		Language:           word.Language,
+		Type:               word.Type,
+		Definitions:        definitions,
+		PronunciationSound: word.Pronunciation,
 	}
 }
 
@@ -172,6 +193,28 @@ func (s *Service) List(ids []int) (SearchRes, error) {
 		}
 	}
 	return res, nil
+}
+
+func (s *Service) AddPronounce(id int, file *multipart.FileHeader) error {
+	f, err := file.Open()
+	if err != nil {
+		return err
+	}
+
+	name := fmt.Sprintf("./fs/%d%s", time.Now().UnixNano(), filepath.Ext(file.Filename))
+	dst, err := os.Create(name)
+	if err != nil {
+		return err
+	}
+	defer func(dst *os.File) {
+		_ = dst.Close()
+	}(dst)
+
+	_, err = io.Copy(dst, f)
+	if err != nil {
+		return err
+	}
+	return s.repo.UpdatePronounce(id, "http://"+s.host+name[1:])
 }
 
 func transform(input UpsertWord) (models.Word, []models.Definition) {

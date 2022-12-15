@@ -11,6 +11,7 @@ import (
 	"github.com/templateOfService/services/auth"
 	"github.com/templateOfService/services/core"
 	"log"
+	"net/http"
 	"os"
 )
 
@@ -27,6 +28,8 @@ func initRouter() *gin.Engine {
 	router.GET("/api/v1/words/list", coreHandler.ListWords)
 	router.GET("/api/v1/words/search", coreHandler.Search)
 	router.POST("/api/v1/words/upsert", coreHandler.Upsert)
+	router.POST("/api/v1/words/pronounce/:id", coreHandler.AddPronounce)
+	router.StaticFS("/fs", http.Dir("./fs"))
 	return router
 }
 

@@ -57,3 +57,9 @@ func (r *Repo) GetAllDefinitions() ([]models.Definition, error) {
 	err := r.conn.Select(&res, query)
 	return res, err
 }
+
+func (r *Repo) UpdatePronounce(id int, file string) error {
+	query := "UPDATE words SET pronunciation = ? WHERE id = ?"
+	_, err := r.conn.Exec(query, file, id)
+	return err
+}

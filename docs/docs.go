@@ -112,7 +112,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/words/pronounce/{id}": {
+        "/api/v1/words/pronounce/:id": {
             "post": {
                 "consumes": [
                     "multipart/form-data"
