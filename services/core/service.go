@@ -56,14 +56,14 @@ func (s *Service) LoadCache() {
 		}
 
 		for i := range words {
-			words[i].NormalizedWord = vietnamese.RemoveAccent(words[i].Word)
+			words[i].NormalizedWord = strings.ToLower(vietnamese.RemoveAccent(words[i].Word))
 			for _, definition := range definitions {
 				if definition.WordID != words[i].ID {
 					continue
 				}
 
 				words[i].Definitions = append(words[i].Definitions, definition)
-				words[i].NormalizedDefinitions += vietnamese.RemoveAccent(definition.Meaning + " " + definition.Examples)
+				words[i].NormalizedDefinitions += strings.ToLower(vietnamese.RemoveAccent(definition.Meaning + " " + definition.Examples))
 			}
 		}
 
@@ -77,8 +77,8 @@ func (s *Service) Search(keyword string, prefix string, language string, order s
 	var res SearchRes
 	var notPrioritizedWords []WordRes
 
-	prefix = vietnamese.RemoveAccent(prefix)
-	keyword = vietnamese.RemoveAccent(keyword)
+	prefix = strings.ToLower(vietnamese.RemoveAccent(prefix))
+	keyword = strings.ToLower(vietnamese.RemoveAccent(keyword))
 
 	if len(keyword) == 0 && len(prefix) == 0 && len(language) == 0 {
 		for _, word := range CachedWords {
